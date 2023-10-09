@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hotel Booking Registration Form</title>
+  </head>
+  <body>
+    <style>
+      body {
+        background-image: url("https://tse1.mm.bing.net/th?id=OIP.Md5-ZTEPzmQbxxmFjUMLggHaE7&pid=Api&P=0&h=180");
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        background-size: 100% 100%;
+        display: grid;
+        place-items: center;
+        align-items: center;
+        justify-content: center;
+        color:black;
+      }
+       label {
+        font-size: 18px;
+        margin-left: 16px;
+        margin-bottom: 8px;
+        width: 240px;
+        display: inline-block;
+        font-family:cursive;
+      }
+       h1{
+        color:midnightblue;
+        text-decoration:underline;
+        font-family:Georgia, 'Times New Roman', Times, serif;
+        font-style:solid ;
+      }
+       h2{
+        color:darkmagenta;
+        text-decoration:underline;
+        font-style: italic;
+      }
+      ul{
+        font-family: cursive;
+        font-size:large;
+      }
+      .btn input[type="button"] {
+        background-color: white;
+        color: black;
+        border: none;
+        cursor: pointer;
+        margin-left: 150px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        height: 40px;
+        text-align: center;
+        font-size: 25px;
+      }
+      .btn input[type="button"]:hover {
+        background-color:cadetblue;
+        color: black;
+        height: 30px;
+      }
+      .para p{
+        font-family: cursive;
+        font-size: larger;
+      }
+     .th .p2{
+        font-family: serif;
+        font-size: 30px;
+        color:darkslategrey;
+        display:grid;
+        place-items: center;
+        align-items: center;
+        justify-content: center;
+      }
+      .centered {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #4CAF50;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        z-index: 1000;
+      }
+      button{
+        background-color: white;
+        color: black;
+        border: none;
+        cursor: pointer;
+        margin-left: 150px;
+        margin-top: 30px;
+        margin-bottom: 20px;
+        height: 40px;
+        text-align: center;
+        font-size: 25px;
+      }
+      
+
+    </style>
+    <h1>Hotel Booking Registration Form</h1>
+    <form id="bookingForm">
+      <h2>Customer Info</h2>
+      <label for="customerName">Customer Name:</label>
+      <input type="text" id="customerName" required /><br />
+
+      <label for="checkInDate">Check-in Date:</label>
+      <input type="date" id="checkInDate" required /><br />
+
+      <label for="totalDays">Total No of Days:</label>
+      <input type="number" id="totalDays" required /><br />
+
+      <label for="totalPersons">Total No of Persons:</label>
+      <input type="number" id="totalPersons" required /><br />
+
+      <h2>Room Information</h2>
+      <label for="roomType">Room Type:</label>
+      <select id="roomType">
+        <option value="Delux">Delux Room</option>
+        <option value="Suite">Suite Room</option></select
+      ><br />
+
+      <label for="amenities">Amenities:</label>
+      <select id="amenities" multiple>
+        <option value="AC">AC</option>
+        <option value="Locker">Locker</option></select
+      ><br />
+      <h2>Room Rates</h2>
+      <ul>
+        <li>Delux Room:2500/-</li>
+        <li>Suite Room:4000/-</li>
+        <li>AC:1000/-</li>
+        <li>Locker:300/-</li>
+      </ul>
+      <h2>Additional Charges</h2>
+      <div class="para">
+      <p>IF PERSONS EXCEEDS  2 THEN PER DAY COST FOR EXTRA PERSON IS 1000/-</p>
+    </div>
+      <label for="extraPersons">Extra Persons:</label>
+      <input type="number" id="extraPersons" /><br />
+      <h2>Advance Payment</h2>
+      <label for="advanceAmount">Advance Amount:</label>
+      <input type="number" id="advanceAmount" required /><br />
+
+      <h2>Balance Amount </h2>
+      <label for="balance">Balance:</label>
+      <input type="text" id="balance" readonly /><br />
+      <label>Total Room Cost:</label>
+      <input type="text" id="totalRoomCost" readonly /><br />
+      <label>Total Amenities Cost:</label>
+      <input type="text" id="totalAmenitiesCost" readonly /><br />
+      <label>Total Cost:</label>
+      <input type="text" id="totalCost" readonly /><br />
+      <div class="btn">
+      <input type="button" value="Calculate" onclick="calculateCost()" /><br /></div>
+      <label style="display: inline-block;font-size: 18px;" > <input type="checkbox" id="rules" name="rules" required>&nbsp;&nbsp;Customer should follow the rules & regulations</label><br /><\br>
+      <button type="button" id="registerButton">Register</button>
+        <div class="th">
+        <p class="p2">Thank You for visiting <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Visit Again</p>
+    </div>
+    </form>
+    <div class="centered" id="successMessage">Registration Successful!</div>
+
+    <script>
+        document.getElementById("registerButton").addEventListener("click", function() {
+            var successMessage = document.getElementById("successMessage");
+            successMessage.style.display = "block";
+            setTimeout(function() {
+              successMessage.style.display = "none";
+            }, 3000);
+          });
+          
+      function calculateCost() {
+        const roomType = document.getElementById("roomType").value;
+        const amenities = document.getElementById("amenities").selectedOptions;
+        const totalDays = parseInt(document.getElementById("totalDays").value);
+        const extraPersons =
+          parseInt(document.getElementById("extraPersons").value) || 0;
+        const advanceAmount = parseInt(
+          document.getElementById("advanceAmount").value
+        );
+        const roomRate = roomType === "Delux" ? 2500 : 4000;
+        const totalRoomCost = roomRate * totalDays;
+        let amenitiesCost = 0;
+        for (let i = 0; i < amenities.length; i++) {
+          if (amenities[i].value === "AC") {
+            amenitiesCost += 1000;
+          } else if (amenities[i].value === "Locker") {
+            amenitiesCost += 300;
+          }
+        }
+        amenitiesCost *= totalDays;
+        const totalCost = totalRoomCost + amenitiesCost + extraPersons * 1000;
+        const balance = totalCost - advanceAmount;
+        document.getElementById("totalRoomCost").value = totalRoomCost + "/-";
+        document.getElementById("totalAmenitiesCost").value =
+          amenitiesCost + "/-";
+        document.getElementById("totalCost").value = totalCost + "/-";
+        document.getElementById("balance").value = balance + "/-";
+      }
+    </script>
+  </body>
+</html>
